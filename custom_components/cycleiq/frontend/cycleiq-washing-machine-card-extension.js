@@ -1,6 +1,6 @@
 /**
  * CycleIQ — Predictor Extension for Washing Machine Animated Card
- * Version 0.1.0
+ * Version 0.2.1
  *
  * Optional companion extension for:
  * https://github.com/sionetta/wm_animated_ha_card
@@ -11,7 +11,7 @@
 (() => {
   "use strict";
 
-  const VERSION = "0.2.0";
+  const VERSION = "0.2.1";
   const CARD_TAG = "washing-machine-card";
   const PATCHED = Symbol.for("cycleiq.wm-card.patched");
 
