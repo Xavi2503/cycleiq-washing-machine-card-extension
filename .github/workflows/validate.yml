@@ -5,9 +5,36 @@ on:
   pull_request:
 
 jobs:
-  javascript:
+  syntax:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Check Python syntax
+        run: python -m compileall -q custom_components/cycleiq
+      - name: Check JSON syntax
+        run: |
+          python -m json.tool hacs.json >/dev/null
+          python -m json.tool custom_components/cycleiq/manifest.json >/dev/null
+          python -m json.tool custom_components/cycleiq/strings.json >/dev/null
+          python -m json.tool custom_components/cycleiq/translations/en.json >/dev/null
+          python -m json.tool custom_components/cycleiq/translations/nl.json >/dev/null
       - name: Check JavaScript syntax
-        run: node --check cycleiq-washing-machine-card-extension.js
+        run: node --check custom_components/cycleiq/frontend/cycleiq-washing-machine-card-extension.js
+
+  hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hacs/action@main
+        with:
+          category: integration
+          ignore: brands
+
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
