@@ -2,7 +2,7 @@
 
 DOMAIN = "cycleiq"
 NAME = "CycleIQ"
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 ALGORITHM_VERSION = "4.0-cycleiq"
 
 CONF_APPLIANCE_TYPE = "appliance_type"
