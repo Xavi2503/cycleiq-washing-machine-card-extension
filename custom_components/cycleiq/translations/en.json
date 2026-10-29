@@ -22,7 +22,8 @@
           "stop_threshold": "Stop threshold",
           "start_delay": "Start delay",
           "stop_delay": "Stop delay",
-          "max_learn_duration": "Maximum cycle duration to learn"
+          "max_learn_duration": "Maximum cycle duration to learn",
+          "max_cycles": "Maximum learned cycles"
         }
       },
       "status": {
@@ -31,7 +32,8 @@
         "data": {
           "status_entity": "Status entity",
           "running_states": "States that mean running (comma-separated)",
-          "max_learn_duration": "Maximum cycle duration to learn"
+          "max_learn_duration": "Maximum cycle duration to learn",
+          "max_cycles": "Maximum learned cycles"
         }
       }
     },
@@ -62,7 +64,8 @@
           "stop_threshold": "Stop threshold",
           "start_delay": "Start delay",
           "stop_delay": "Stop delay",
-          "max_learn_duration": "Maximum cycle duration to learn"
+          "max_learn_duration": "Maximum cycle duration to learn",
+          "max_cycles": "Maximum learned cycles"
         }
       },
       "status": {
@@ -70,7 +73,8 @@
         "data": {
           "status_entity": "Status entity",
           "running_states": "States that mean running (comma-separated)",
-          "max_learn_duration": "Maximum cycle duration to learn"
+          "max_learn_duration": "Maximum cycle duration to learn",
+          "max_cycles": "Maximum learned cycles"
         }
       }
     },
