@@ -23,6 +23,7 @@ from .const import (
     CONF_DETECTION_MODE,
     CONF_ENERGY_ENTITY,
     CONF_MAX_LEARN_DURATION,
+    CONF_LEGACY_HISTORY_ENTITY,
     CONF_POWER_ENTITY,
     CONF_RUNNING_STATES,
     CONF_START_DELAY,
@@ -79,6 +80,8 @@ class AppliancePredictor:
         self.max_learn_duration = int(
             self.config.get(CONF_MAX_LEARN_DURATION, DEFAULT_MAX_LEARN_DURATION)
         )
+        self.legacy_history_entity = self.config.get(CONF_LEGACY_HISTORY_ENTITY)
+        self._legacy_import_done = False
 
         self.csv_log = CycleIQCsvLog(hass, entry, self.name)
         self._last_completed_end: datetime | None = None
@@ -123,10 +126,44 @@ class AppliancePredictor:
     async def async_start(self) -> None:
         """Load history and start polling."""
         stored = await self._store.async_load() or {}
+        self._legacy_import_done = bool(stored.get("legacy_import_done", False))
+
         raw_history = stored.get("cycles", [])
         if isinstance(raw_history, list):
             self.history = self._sanitize_history(raw_history)
-        self._restore_last_cycle(stored.get("last_cycle"))
+
+        stored_last_cycle = stored.get("last_cycle")
+        self._restore_last_cycle(stored_last_cycle)
+
+        if (
+            not self.history
+            and self.legacy_history_entity
+            and not self._legacy_import_done
+        ):
+            legacy_cycles = self._read_legacy_history()
+            if legacy_cycles:
+                self.history = self._sanitize_history(legacy_cycles)
+                self._legacy_import_done = True
+
+                if self.history and not stored_last_cycle:
+                    latest = self.history[-1]
+                    self._restore_last_cycle(
+                        {
+                            "start": latest.get("start"),
+                            "end": latest.get("end"),
+                            "duration": latest.get("duration"),
+                            "energy": latest.get("energy"),
+                        }
+                    )
+
+                await self._store.async_save(self._serialize())
+                _LOGGER.info(
+                    "%s: imported %d legacy learning cycles from %s",
+                    self.name,
+                    len(self.history),
+                    self.legacy_history_entity,
+                )
+
         self.values["learned_cycles"] = len(self.history)
 
         active = stored.get("active")
@@ -772,6 +809,31 @@ class AppliancePredictor:
         except (TypeError, ValueError):
             return
 
+    def _read_legacy_history(self) -> list[dict[str, Any]]:
+        """Read cycles from an optional legacy Home Assistant state entity."""
+        if not self.legacy_history_entity:
+            return []
+
+        source = self.hass.states.get(self.legacy_history_entity)
+        if source is None:
+            _LOGGER.warning(
+                "%s: legacy learning entity not found: %s",
+                self.name,
+                self.legacy_history_entity,
+            )
+            return []
+
+        cycles = source.attributes.get("cycles", [])
+        if not isinstance(cycles, list):
+            _LOGGER.warning(
+                "%s: legacy learning entity has no valid cycles attribute: %s",
+                self.name,
+                self.legacy_history_entity,
+            )
+            return []
+
+        return cycles
+
     def _status_entity_running(self) -> bool | None:
         if self.mode != DETECTION_STATUS:
             return False
@@ -863,6 +925,7 @@ class AppliancePredictor:
             "algorithm_version": ALGORITHM_VERSION,
             "cycles": self.history[-MAX_CYCLES:],
             "active": active,
+            "legacy_import_done": self._legacy_import_done,
             "last_cycle": {
                 "start": last_start.isoformat() if isinstance(last_start, datetime) else None,
                 "end": last_end.isoformat() if isinstance(last_end, datetime) else None,

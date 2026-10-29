@@ -1,4 +1,4 @@
-"""Config flow for Appliance Learning Predictor."""
+"""Config flow for CycleIQ."""
 
 from __future__ import annotations
 
@@ -28,6 +28,7 @@ from .const import (
     CONF_DETECTION_MODE,
     CONF_ENERGY_ENTITY,
     CONF_MAX_LEARN_DURATION,
+    CONF_LEGACY_HISTORY_ENTITY,
     CONF_POWER_ENTITY,
     CONF_RUNNING_STATES,
     CONF_START_DELAY,
@@ -84,6 +85,14 @@ def _base_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
                     translation_key="detection_mode",
                 )
             ),
+            (
+                vol.Optional(
+                    CONF_LEGACY_HISTORY_ENTITY,
+                    default=defaults[CONF_LEGACY_HISTORY_ENTITY],
+                )
+                if CONF_LEGACY_HISTORY_ENTITY in defaults
+                else vol.Optional(CONF_LEGACY_HISTORY_ENTITY)
+            ): EntitySelector(EntitySelectorConfig()),
         }
     )
 

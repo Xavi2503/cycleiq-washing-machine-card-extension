@@ -4,13 +4,14 @@
     "step": {
       "user": {
         "title": "CycleIQ toevoegen",
-        "description": "Kies het apparaat en de bron-entiteiten. CycleIQ leert afgeronde cycli, voorspelt de resterende tijd en houdt automatisch een CSV-trainingslogboek bij.",
+        "description": "Kies het apparaat en de bron-entiteiten. CycleIQ leert afgeronde cycli, voorspelt de resterende tijd en houdt automatisch een CSV-trainingslogboek bij. Heb je al leerdata van de eerdere predictor, selecteer die entiteit optioneel voor een eenmalige import.",
         "data": {
           "name": "Naam",
           "appliance_type": "Apparaattype",
           "power_entity": "Vermogenssensor",
           "energy_entity": "Cumulatieve energiesensor",
-          "detection_mode": "Cyclusdetectie"
+          "detection_mode": "Cyclusdetectie",
+          "legacy_history_entity": "Bestaande leerdata-entiteit (optioneel)"
         }
       },
       "power": {
@@ -50,7 +51,8 @@
           "appliance_type": "Apparaattype",
           "power_entity": "Vermogenssensor",
           "energy_entity": "Cumulatieve energiesensor",
-          "detection_mode": "Cyclusdetectie"
+          "detection_mode": "Cyclusdetectie",
+          "legacy_history_entity": "Bestaande leerdata-entiteit (optioneel)"
         }
       },
       "power": {

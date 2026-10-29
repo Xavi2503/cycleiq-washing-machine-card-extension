@@ -4,13 +4,14 @@
     "step": {
       "user": {
         "title": "Add CycleIQ",
-        "description": "Choose the appliance and source entities. CycleIQ learns completed cycles, predicts remaining time and automatically keeps a CSV training log.",
+        "description": "Choose the appliance and source entities. CycleIQ learns completed cycles, predicts remaining time and automatically keeps a CSV training log. If you already have learning data from the earlier predictor, optionally select that entity for a one-time import.",
         "data": {
           "name": "Name",
           "appliance_type": "Appliance type",
           "power_entity": "Power sensor",
           "energy_entity": "Cumulative energy sensor",
-          "detection_mode": "Cycle detection"
+          "detection_mode": "Cycle detection",
+          "legacy_history_entity": "Existing learning-data entity (optional)"
         }
       },
       "power": {
@@ -50,7 +51,8 @@
           "appliance_type": "Appliance type",
           "power_entity": "Power sensor",
           "energy_entity": "Cumulative energy sensor",
-          "detection_mode": "Cycle detection"
+          "detection_mode": "Cycle detection",
+          "legacy_history_entity": "Existing learning-data entity (optional)"
         }
       },
       "power": {

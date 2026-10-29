@@ -16,6 +16,7 @@ CONF_STOP_THRESHOLD = "stop_threshold"
 CONF_START_DELAY = "start_delay"
 CONF_STOP_DELAY = "stop_delay"
 CONF_MAX_LEARN_DURATION = "max_learn_duration"
+CONF_LEGACY_HISTORY_ENTITY = "legacy_history_entity"
 
 DETECTION_POWER = "power"
 DETECTION_STATUS = "status"

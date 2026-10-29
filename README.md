@@ -26,6 +26,21 @@ Animation, appliance UI, status/power display, themes/languages, normal last-cyc
 
 A fresh CycleIQ install requires **no Pyscript file**, **no manually created log folder**, and **no manual JavaScript resource**.
 
+## Migrating existing predictor learning data
+
+If you already used the earlier Pyscript predictor, CycleIQ can import its persisted cycle history once during setup.
+
+In the optional **Existing learning-data entity** field select the entity whose attributes contain the `cycles` list, for example:
+
+```text
+pyscript.wasmachine_leerdata
+pyscript.droger_leerdata
+```
+
+CycleIQ sanitizes the imported history, keeps at most 40 valid cycles, normalizes 30–45 minute dryer cycles into the dedicated short profile, and then stores the result in its own Home Assistant storage. After the import, CycleIQ no longer depends on the legacy entity.
+
+Existing CSV files are left untouched as historical archives. New CycleIQ prediction/evaluation rows are written to `/config/cycleiq/logs/`.
+
 ## Card connection
 CycleIQ entities include metadata linking them to the configured power sensor. The frontend extension uses that metadata to fill missing CycleIQ-related entity options in a matching Washing Machine Animated Card automatically. Explicit YAML settings always win.
 
