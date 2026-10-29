@@ -15,7 +15,7 @@ Animation, appliance UI, status/power display, themes/languages, normal last-cyc
 - last start/end/duration/energy sensors;
 - Cycle Active binary sensor and reset-learning button;
 - the in-card row **START | EXPECTED | REMAINING | END | DURATION**;
-- automatic registration of the CycleIQ frontend module.
+- automatic serving and Lovelace-resource registration of the CycleIQ frontend module.
 
 ## HACS installation
 1. Install/update **Washing Machine Animated Card** by sionetta through HACS.
@@ -75,7 +75,9 @@ Initial target: Washing Machine Animated Card **v1.5.0**.
 CycleIQ patches the already-loaded card only when compatible internals are present. If they are not, CycleIQ logs a warning and leaves the original card untouched.
 
 ## Development status
-Version 0.2.0 is the first native HACS-integration architecture. Test this branch before replacing the current 0.1.0 development plugin installation.
+Version 0.2.1 is the native HACS-integration architecture. HACS installs the backend under `custom_components/cycleiq`; CycleIQ then serves and registers its bundled frontend module automatically.
+
+With Home Assistant's default Lovelace resource storage mode, the frontend resource is created/updated automatically. If a user deliberately runs Lovelace resources in YAML mode, Home Assistant does not allow integrations to modify that read-only resource list; CycleIQ falls back to an extra frontend module and records a warning in the Home Assistant log.
 
 ## License
 MIT.
