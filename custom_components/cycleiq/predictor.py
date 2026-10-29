@@ -23,6 +23,7 @@ from .const import (
     CONF_DETECTION_MODE,
     CONF_ENERGY_ENTITY,
     CONF_MAX_LEARN_DURATION,
+    CONF_MAX_CYCLES,
     CONF_LEGACY_HISTORY_ENTITY,
     CONF_POWER_ENTITY,
     CONF_RUNNING_STATES,
@@ -32,6 +33,9 @@ from .const import (
     CONF_STOP_DELAY,
     CONF_STOP_THRESHOLD,
     DEFAULT_MAX_LEARN_DURATION,
+    DEFAULT_MAX_CYCLES,
+    MAX_MAX_CYCLES,
+    MIN_MAX_CYCLES,
     DEFAULT_RUNNING_STATES,
     DEFAULT_START_DELAY,
     DEFAULT_START_THRESHOLD,
@@ -41,7 +45,6 @@ from .const import (
     DETECTION_STATUS,
     DOMAIN,
     MAX_ACTIVE_MINUTES,
-    MAX_CYCLES,
     MIN_LEARN_DURATION,
     MIN_LEARN_ENERGY,
     PHASE_SHIFT_LIMIT,
@@ -79,6 +82,13 @@ class AppliancePredictor:
         self.mode = self.config[CONF_DETECTION_MODE]
         self.max_learn_duration = int(
             self.config.get(CONF_MAX_LEARN_DURATION, DEFAULT_MAX_LEARN_DURATION)
+        )
+        self.max_cycles = max(
+            MIN_MAX_CYCLES,
+            min(
+                MAX_MAX_CYCLES,
+                int(self.config.get(CONF_MAX_CYCLES, DEFAULT_MAX_CYCLES)),
+            ),
         )
         self.legacy_history_entity = self.config.get(CONF_LEGACY_HISTORY_ENTITY)
         self._legacy_import_done = False
@@ -356,7 +366,7 @@ class AppliancePredictor:
                 "algorithm_version": ALGORITHM_VERSION,
             }
             self.history.append(cycle)
-            self.history = self._sanitize_history(self.history)[-MAX_CYCLES:]
+            self.history = self._sanitize_history(self.history)[-self.max_cycles:]
             self.values.update(
                 {
                     "remaining_time": 0,
@@ -717,7 +727,7 @@ class AppliancePredictor:
                 except (TypeError, ValueError):
                     copy["profile"] = 1
             cleaned.append(copy)
-        return cleaned[-MAX_CYCLES:]
+        return cleaned[-self.max_cycles:]
 
     def _is_short_dryer_duration(self, duration: float) -> bool:
         return self.appliance_type == "dryer" and DRYER_SHORT_MINUTES_MIN <= float(duration) <= DRYER_SHORT_MINUTES_MAX
@@ -923,7 +933,7 @@ class AppliancePredictor:
         last_start, last_end = self.values.get("last_start"), self.values.get("last_end")
         return {
             "algorithm_version": ALGORITHM_VERSION,
-            "cycles": self.history[-MAX_CYCLES:],
+            "cycles": self.history[-self.max_cycles:],
             "active": active,
             "legacy_import_done": self._legacy_import_done,
             "last_cycle": {
