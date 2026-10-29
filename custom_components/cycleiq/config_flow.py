@@ -28,6 +28,7 @@ from .const import (
     CONF_DETECTION_MODE,
     CONF_ENERGY_ENTITY,
     CONF_MAX_LEARN_DURATION,
+    CONF_MAX_CYCLES,
     CONF_LEGACY_HISTORY_ENTITY,
     CONF_POWER_ENTITY,
     CONF_RUNNING_STATES,
@@ -37,6 +38,9 @@ from .const import (
     CONF_STOP_DELAY,
     CONF_STOP_THRESHOLD,
     DEFAULT_MAX_LEARN_DURATION,
+    DEFAULT_MAX_CYCLES,
+    MAX_MAX_CYCLES,
+    MIN_MAX_CYCLES,
     DEFAULT_RUNNING_STATES,
     DEFAULT_START_DELAY,
     DEFAULT_START_THRESHOLD,
@@ -161,6 +165,17 @@ def _power_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
                     mode=NumberSelectorMode.BOX,
                 )
             ),
+            vol.Required(
+                CONF_MAX_CYCLES,
+                default=defaults.get(CONF_MAX_CYCLES, DEFAULT_MAX_CYCLES),
+            ): NumberSelector(
+                NumberSelectorConfig(
+                    min=MIN_MAX_CYCLES,
+                    max=MAX_MAX_CYCLES,
+                    step=1,
+                    mode=NumberSelectorMode.BOX,
+                )
+            ),
         }
     )
 
@@ -189,6 +204,17 @@ def _status_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
                     max=1440,
                     step=10,
                     unit_of_measurement="min",
+                    mode=NumberSelectorMode.BOX,
+                )
+            ),
+            vol.Required(
+                CONF_MAX_CYCLES,
+                default=defaults.get(CONF_MAX_CYCLES, DEFAULT_MAX_CYCLES),
+            ): NumberSelector(
+                NumberSelectorConfig(
+                    min=MIN_MAX_CYCLES,
+                    max=MAX_MAX_CYCLES,
+                    step=1,
                     mode=NumberSelectorMode.BOX,
                 )
             ),

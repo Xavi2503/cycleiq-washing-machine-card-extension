@@ -53,4 +53,4 @@ class CycleIQSensor(SensorEntity):
         return self.runtime.values.get(self.entity_description.key)
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        return {"algorithm_version": ALGORITHM_VERSION,"cycleiq_key": self.entity_description.key,"cycleiq_entry_id": self.entry.entry_id,"detection_mode": self.runtime.mode,"active_cycle": self.runtime.active,"source_power_entity": self.runtime.power_entity,"source_energy_entity": self.runtime.energy_entity,"prediction_log": str(self.runtime.csv_log.path)}
+        return {"algorithm_version": ALGORITHM_VERSION,"cycleiq_key": self.entity_description.key,"cycleiq_entry_id": self.entry.entry_id,"detection_mode": self.runtime.mode,"active_cycle": self.runtime.active,"source_power_entity": self.runtime.power_entity,"source_energy_entity": self.runtime.energy_entity,"prediction_log": str(self.runtime.csv_log.path),"max_learning_cycles": self.runtime.max_cycles}
