@@ -22,7 +22,8 @@
           "stop_threshold": "Stopdrempel",
           "start_delay": "Startvertraging",
           "stop_delay": "Stopvertraging",
-          "max_learn_duration": "Maximale cyclusduur om te leren"
+          "max_learn_duration": "Maximale cyclusduur om te leren",
+          "max_cycles": "Maximaal aantal geleerde cycli"
         }
       },
       "status": {
@@ -31,7 +32,8 @@
         "data": {
           "status_entity": "Status-entiteit",
           "running_states": "Statussen die actief betekenen (komma-gescheiden)",
-          "max_learn_duration": "Maximale cyclusduur om te leren"
+          "max_learn_duration": "Maximale cyclusduur om te leren",
+          "max_cycles": "Maximaal aantal geleerde cycli"
         }
       }
     },
@@ -62,7 +64,8 @@
           "stop_threshold": "Stopdrempel",
           "start_delay": "Startvertraging",
           "stop_delay": "Stopvertraging",
-          "max_learn_duration": "Maximale cyclusduur om te leren"
+          "max_learn_duration": "Maximale cyclusduur om te leren",
+          "max_cycles": "Maximaal aantal geleerde cycli"
         }
       },
       "status": {
@@ -70,7 +73,8 @@
         "data": {
           "status_entity": "Status-entiteit",
           "running_states": "Statussen die actief betekenen (komma-gescheiden)",
-          "max_learn_duration": "Maximale cyclusduur om te leren"
+          "max_learn_duration": "Maximale cyclusduur om te leren",
+          "max_cycles": "Maximaal aantal geleerde cycli"
         }
       }
     },
