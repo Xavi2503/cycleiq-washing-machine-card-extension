@@ -2,8 +2,8 @@
 
 DOMAIN = "cycleiq"
 NAME = "CycleIQ"
-VERSION = "0.2.1"
-ALGORITHM_VERSION = "4.0-cycleiq"
+VERSION = "0.3.0"
+ALGORITHM_VERSION = "4.1-cycleiq"
 
 CONF_APPLIANCE_TYPE = "appliance_type"
 CONF_POWER_ENTITY = "power_entity"
@@ -16,6 +16,7 @@ CONF_STOP_THRESHOLD = "stop_threshold"
 CONF_START_DELAY = "start_delay"
 CONF_STOP_DELAY = "stop_delay"
 CONF_MAX_LEARN_DURATION = "max_learn_duration"
+CONF_MAX_CYCLES = "max_cycles"
 CONF_LEGACY_HISTORY_ENTITY = "legacy_history_entity"
 
 DETECTION_POWER = "power"
@@ -27,6 +28,9 @@ DEFAULT_STOP_THRESHOLD = 15.0
 DEFAULT_START_DELAY = 10
 DEFAULT_STOP_DELAY = 15
 DEFAULT_MAX_LEARN_DURATION = 360
+DEFAULT_MAX_CYCLES = DEFAULT_MAX_CYCLES
+MIN_MAX_CYCLES = 5
+MAX_MAX_CYCLES = 200
 DEFAULT_RUNNING_STATES = "on,running,run,washing,drying,spinning,rinsing,heating,baking"
 
 MAX_CYCLES = 40
