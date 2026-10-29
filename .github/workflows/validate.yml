@@ -1,0 +1,13 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: node --check cycleiq-washing-machine-card-extension.js
