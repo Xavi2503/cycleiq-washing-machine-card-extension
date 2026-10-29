@@ -24,7 +24,7 @@ SENSORS = (
     CycleIQSensorDescription(key="last_start",translation_key="last_start",icon="mdi:clock-start",device_class=SensorDeviceClass.TIMESTAMP),
     CycleIQSensorDescription(key="last_end",translation_key="last_end",icon="mdi:clock-end",device_class=SensorDeviceClass.TIMESTAMP),
     CycleIQSensorDescription(key="last_duration",translation_key="last_duration",icon="mdi:timer-outline",device_class=SensorDeviceClass.DURATION,native_unit_of_measurement=UnitOfTime.MINUTES,state_class=SensorStateClass.MEASUREMENT),
-    CycleIQSensorDescription(key="last_energy",translation_key="last_energy",icon="mdi:lightning-bolt",device_class=SensorDeviceClass.ENERGY,native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,state_class=SensorStateClass.MEASUREMENT),
+    CycleIQSensorDescription(key="last_energy",translation_key="last_energy",icon="mdi:lightning-bolt",device_class=SensorDeviceClass.ENERGY,native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR),
 )
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
