@@ -7,8 +7,7 @@
   "config_flow": true,
   "dependencies": [
     "frontend",
-    "http",
-    "lovelace"
+    "http"
   ],
   "documentation": "https://github.com/Xavi2503/cycleiq-washing-machine-card-extension",
   "integration_type": "helper",
