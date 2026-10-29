@@ -6,7 +6,7 @@ CycleIQ is a learning predictor and companion extension for [sionetta's Washing 
 Animation, appliance UI, status/power display, themes/languages, normal last-cycle fields and the official `remaining_entity` support remain owned by the original card.
 
 ## What CycleIQ adds
-- local cycle learning and persistent history;
+- local cycle learning and persistent history with a configurable per-appliance history limit (5–200 cycles, default 40);
 - remaining-time, expected-end and expected-duration prediction;
 - confidence and learned program profiles;
 - dedicated 30–45 minute dryer follow-up profile (shown as **Kort ±35 min** on Dutch HA);
@@ -37,7 +37,7 @@ pyscript.wasmachine_leerdata
 pyscript.droger_leerdata
 ```
 
-CycleIQ sanitizes the imported history, keeps at most 40 valid cycles, normalizes 30–45 minute dryer cycles into the dedicated short profile, and then stores the result in its own Home Assistant storage. After the import, CycleIQ no longer depends on the legacy entity.
+CycleIQ sanitizes the imported history, keeps the newest valid cycles up to the configured per-appliance limit (default 40), normalizes 30–45 minute dryer cycles into the dedicated short profile, and then stores the result in its own Home Assistant storage. After the import, CycleIQ no longer depends on the legacy entity.
 
 Existing CSV files are left untouched as historical archives. New CycleIQ prediction/evaluation rows are written to `/config/cycleiq/logs/`.
 
@@ -75,9 +75,12 @@ Initial target: Washing Machine Animated Card **v1.5.0**.
 CycleIQ patches the already-loaded card only when compatible internals are present. If they are not, CycleIQ logs a warning and leaves the original card untouched.
 
 ## Development status
-Version 0.2.1 is the native HACS-integration architecture. HACS installs the backend under `custom_components/cycleiq`; CycleIQ then serves and registers its bundled frontend module automatically.
+Version 0.3.0 is the native HACS-integration architecture. HACS installs the backend under `custom_components/cycleiq`; CycleIQ then serves and registers its bundled frontend module automatically.
 
 With Home Assistant's default Lovelace resource storage mode, the frontend resource is created/updated automatically. If a user deliberately runs Lovelace resources in YAML mode, Home Assistant does not allow integrations to modify that read-only resource list; CycleIQ falls back to an extra frontend module and records a warning in the Home Assistant log.
 
 ## License
 MIT.
+
+## Learning history limit
+The maximum number of learned cycles is configurable per appliance in the CycleIQ integration options. The default is 40, with a supported range of 5–200. Lowering the value keeps the newest valid cycles and removes older entries on the next reload; increasing it lets CycleIQ retain more future training cycles.
