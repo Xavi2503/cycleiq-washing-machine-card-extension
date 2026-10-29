@@ -11,7 +11,7 @@
 (() => {
   "use strict";
 
-  const VERSION = "0.1.0";
+  const VERSION = "0.2.0";
   const CARD_TAG = "washing-machine-card";
   const PATCHED = Symbol.for("cycleiq.wm-card.patched");
 
@@ -38,9 +38,45 @@
     return LABELS[lang(card)] || LABELS.en;
   }
 
+  function discoverCycleIQ(card) {
+    const powerEntity = card?._config?.power_entity;
+    const states = card?._hass?.states;
+    if (!powerEntity || !states) return null;
+    const found = {};
+    let entryId = null;
+    for (const [entityId, entity] of Object.entries(states)) {
+      const attrs = entity?.attributes || {};
+      if (attrs.source_power_entity !== powerEntity || !attrs.cycleiq_key) continue;
+      if (!entryId) entryId = attrs.cycleiq_entry_id || null;
+      if (entryId && attrs.cycleiq_entry_id && attrs.cycleiq_entry_id !== entryId) continue;
+      found[attrs.cycleiq_key] = entityId;
+    }
+    return Object.keys(found).length ? found : null;
+  }
+
+  function applyAutoConfig(card) {
+    const c = card?._config;
+    if (!c) return;
+    const found = discoverCycleIQ(card);
+    if (!found) return;
+    const mapping = {
+      remaining_entity: "remaining_time",
+      expected_end_entity: "expected_end",
+      last_wash_entity: "last_start",
+      last_end_entity: "last_end",
+      duration_entity: "last_duration",
+      energy_entity: "last_energy",
+      confidence_entity: "confidence",
+      profile_entity: "cycle_profile"
+    };
+    for (const [configKey, cycleKey] of Object.entries(mapping)) {
+      if (!c[configKey] && found[cycleKey]) c[configKey] = found[cycleKey];
+    }
+  }
+
   function activeFor(card) {
     const c = card?._config || {};
-    return Boolean(c.expected_end_entity || c.last_end_entity);
+    return Boolean(c.expected_end_entity || c.last_end_entity || discoverCycleIQ(card));
   }
 
   function state(card, id) {
@@ -279,6 +315,7 @@
     const originalUpdate = proto._update;
 
     proto._build = function (...args) {
+      try { applyAutoConfig(this); } catch (error) { console.warn("[CycleIQ] Automatic entity mapping failed.", error); }
       const result = originalBuild.apply(this, args);
       try { install(this); }
       catch (error) { console.warn("[CycleIQ] Extension build failed. Original card remains active.", error); }
@@ -286,6 +323,7 @@
     };
 
     proto._update = function (...args) {
+      try { applyAutoConfig(this); } catch (error) { console.warn("[CycleIQ] Automatic entity mapping failed.", error); }
       const result = originalUpdate.apply(this, args);
       try { update(this); }
       catch (error) { console.warn("[CycleIQ] Extension update failed. Original card remains active.", error); }

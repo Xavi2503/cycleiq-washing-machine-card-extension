@@ -1,0 +1,17 @@
+{
+  "domain": "cycleiq",
+  "name": "CycleIQ",
+  "codeowners": [
+    "@Xavi2503"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "lovelace"
+  ],
+  "documentation": "https://github.com/Xavi2503/cycleiq-washing-machine-card-extension",
+  "integration_type": "helper",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/Xavi2503/cycleiq-washing-machine-card-extension/issues",
+  "version": "0.2.0"
+}
