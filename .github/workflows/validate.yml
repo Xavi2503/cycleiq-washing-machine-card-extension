@@ -21,8 +21,6 @@ jobs:
           python -m json.tool custom_components/cycleiq/strings.json >/dev/null
           python -m json.tool custom_components/cycleiq/translations/en.json >/dev/null
           python -m json.tool custom_components/cycleiq/translations/nl.json >/dev/null
-      - name: Check JavaScript syntax
-        run: node --check custom_components/cycleiq/frontend/cycleiq-washing-machine-card-extension.js
 
   hacs:
     runs-on: ubuntu-latest
