@@ -57,7 +57,11 @@ async def _async_remove_legacy_frontend(hass: HomeAssistant) -> None:
     # CycleIQ <= 0.3.x used add_extra_js_url as a fallback in YAML-resource
     # mode. Removing known legacy URLs is harmless when they were never added.
     for url in _LEGACY_EXTRA_JS_URLS:
-        remove_extra_js_url(hass, url)
+        try:
+            remove_extra_js_url(hass, url)
+        except KeyError:
+            # The URL was not registered through add_extra_js_url on this install.
+            pass
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
