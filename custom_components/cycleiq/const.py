@@ -2,8 +2,8 @@
 
 DOMAIN = "cycleiq"
 NAME = "CycleIQ"
-VERSION = "0.3.0"
-ALGORITHM_VERSION = "4.1-cycleiq"
+VERSION = "0.4.0"
+ALGORITHM_VERSION = "4.2-cycleiq"
 
 CONF_APPLIANCE_TYPE = "appliance_type"
 CONF_POWER_ENTITY = "power_entity"
@@ -50,5 +50,3 @@ DRYER_SHORT_FOLLOWUP_GAP_MINUTES = 45
 
 STORAGE_VERSION = 2
 POLL_SECONDS = 30
-FRONTEND_URL = "/cycleiq/frontend"
-FRONTEND_FILE = "cycleiq-washing-machine-card-extension.js"
