@@ -3,7 +3,7 @@
 DOMAIN = "cycleiq"
 NAME = "CycleIQ"
 VERSION = "0.4.0"
-ALGORITHM_VERSION = "4.2-cycleiq"
+ALGORITHM_VERSION = "4.1-cycleiq"
 
 CONF_APPLIANCE_TYPE = "appliance_type"
 CONF_POWER_ENTITY = "power_entity"
